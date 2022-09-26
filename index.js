@@ -2,7 +2,7 @@
 
 const express = require('express');
 const app = express();
-const path = require('path');
+
 app.use(express.static(__dirname+'/public'));
 
 const router = express.Router();
@@ -11,36 +11,38 @@ const logger=(req,res,next)=>{
   var today = new Date();
   
   if(today.getDay() == 6 || today.getDay() == 0 && today.getHours()<9 || today.getHours()>17) {
-    return res.write("<h1>The web application is only available during working hours <br> (Monday to Friday,  from 9 to 17).</h1>");
+    return res.sendFile(__dirname+'/siteferme.html');
   }
   
   next();
 }
 
-
+router.get('/public/closed.gif',function(req,res){
+  res.sendFile(__dirname+'/public/closed.gif')
+})
 
 router.get('/',function(req,res){
-  res.sendFile(path.join(__dirname+'/index.html'));
+  res.sendFile((__dirname+'/index.html'));
   //__dirname : It will resolve to your project folder.
 });
 
 router.get('/Home',logger,function(req,res){
-  res.sendFile(path.join(__dirname+'/Home.html'));
+  res.sendFile((__dirname+'/Home.html'));
   
   //__dirname : It will resolve to your project folder.
 });
 router.get('/Service',logger,function(req,res){
-  res.sendFile(path.join(__dirname+'/Service.html'));
+  res.sendFile((__dirname+'/Service.html'));
   //__dirname : It will resolve to your project folder.
 });
 
 router.get('/Contact',logger,function(req,res){
-  res.sendFile(path.join(__dirname+'/Contact.html'));
+  res.sendFile((__dirname+'/Contact.html'));
   //__dirname : It will resolve to your project folder.
 });
 
 router.get('/public/index.css',function(req,res){
-  res.sendFile(path.join(__dirname+'/public/index.css'));
+  res.sendFile((__dirname+'/public/index.css'));
   //__dirname : It will resolve to your project folder.
 });
 
